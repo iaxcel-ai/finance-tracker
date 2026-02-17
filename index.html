@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A student finance tracker to manage budgets and expenses.">
+    <title>Student Finance Tracker</title>
+
+    <!-- CSS Imports -->
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-btn icon-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+        ☰
+    </button>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <header class="sidebar-header">
+                <h1>FinanceTracker</h1>
+            </header>
+            <nav class="sidebar-nav" aria-label="Main Navigation">
+                <ul>
+                    <li><a class="nav-link active" data-target="dashboard">Dashboard</a></li>
+                    <li><a class="nav-link" data-target="records">Records</a></li>
+                    <li><a class="nav-link" data-target="add-entry">Add Entry</a></li>
+                    <li><a class="nav-link" data-target="settings">Settings</a></li>
+                </ul>
+            </nav>
+            <footer class="sidebar-footer">
+                <p>&copy; 2025 Student Finance Tracker</p>
+            </footer>
+        </aside>
+
+        <!-- Main Content (Pages) -->
+        <main id="main-content" class="main-content">
+
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page-section active">
+                <header class="section-header">
+                    <h2>Dashboard</h2>
+                </header>
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <h3>Total Balance</h3>
+                        <p class="stat-value" id="total-balance" data-currency="USD">$0.00</p>
+                    </article>
+                    <article class="stat-card">
+                        <h3>Monthly Spending</h3>
+                        <p class="stat-value" id="monthly-spending" data-currency="USD">$0.00</p>
+                        <!-- <p class="stat-trend negative">↑ 0% vs last month</p> Trend can be added later -->
+                    </article>
+                    <article class="stat-card">
+                        <h3>Top Category</h3>
+                        <p class="stat-value" id="top-category">-</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Records Page -->
+            <section id="records" class="page-section">
+                <header class="section-header">
+                    <h2>Recent Transactions</h2>
+                    <div class="actions">
+                        <div class="search-bar">
+                            <label for="search" class="visually-hidden">Search transactions</label>
+                            <input type="text" id="search" placeholder="Search (e.g. 'Coffee' or amount)">
+                        </div>
+                        <div class="sort-controls">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by">
+                                <option value="date-desc">Date (Newest)</option>
+                                <option value="date-asc">Date (Oldest)</option>
+                                <option value="amount-desc">Amount (High-Low)</option>
+                                <option value="amount-asc">Amount (Low-High)</option>
+                            </select>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="table-container">
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Category</th>
+                                <th scope="col" class="text-right">Amount</th>
+                                <th scope="col" class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-list-table">
+                            <!-- Transactions will be populated here -->
+                            <tr>
+                                <td colspan="5" class="text-center">No transactions found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Mobile Card View -->
+                    <div class="records-cards" id="transaction-list-cards">
+                        <!-- Cards will be populated here -->
+                        <p class="text-center">No transactions found.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Entry Page -->
+            <section id="add-entry" class="page-section">
+                <header class="section-header">
+                    <h2>Add New Transaction</h2>
+                </header>
+                <form class="entry-form">
+                    <div class="form-group">
+                        <label for="description">Description (What was it?)</label>
+                        <input type="text" id="description" name="description" required placeholder="e.g. Bus ticket">
+                    </div>
+
+                    <div class="form-row"> <!-- Defined in style.css or update -->
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" name="amount" step="0.01" min="0" required
+                                placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="Food">Food</option>
+                            <option value="Books">Books</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Fees">Fees</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Transaction</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Settings Page -->
+            <section id="settings" class="page-section">
+                <header class="section-header">
+                    <h2>Settings</h2>
+                </header>
+                <div class="settings-grid">
+                    <div class="settings-option">
+                        <div>
+                            <h3>Dark Mode</h3>
+                            <p>Switch between light and dark themes.</p>
+                        </div>
+                        <button id="theme-toggle" class="btn btn-secondary">Toggle Theme</button>
+                    </div>
+
+                    <div class="settings-option">
+                        <div>
+                            <h3>Delete All Data</h3>
+                            <p>Permanently remove all your transaction data.</p>
+                        </div>
+                        <button id="delete-all-btn" class="btn btn-danger">Delete All</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="scripts/app.js"></script>
+</body>
+
+</html>
