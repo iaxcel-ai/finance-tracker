@@ -11,24 +11,21 @@ import { validateTransaction } from './validators.js';
 let transactions = [];
 let editingId = null;
 
-// DOM Elements
+// DOM
 const form = document.querySelector('.entry-form');
 const searchInput = document.getElementById('search');
 const sortSelect = document.getElementById('sort-by');
 
-// Navigation Elements
+// Navigation
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.page-section');
 const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
 const sidebar = document.getElementById('sidebar');
 
-// Settings Elements
+// Settings
 const themeToggleBtn = document.getElementById('theme-toggle');
 const deleteAllBtn = document.getElementById('delete-all-btn');
 
-/**
- * Initialization
- */
 function init() {
   transactions = load();
   renderApp();
@@ -68,9 +65,7 @@ function switchPage(targetId) {
   sidebar.classList.remove('open');
 }
 
-/**
- * Render App
- */
+
 function renderApp() {
   // 1. Filter
   const query = searchInput.value.toLowerCase().trim();
