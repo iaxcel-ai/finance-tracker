@@ -3,18 +3,18 @@
  */
 
 import { load, save } from './storage.js';
-import { renderTransactions, updateDashboard, showNotification } from './ui.js'; // Assumes ui.js handles DOM updates
+import { renderTransactions, updateDashboard, showNotification } from './ui.js';
 import { generateID } from './utils.js';
+import { validateTransaction } from './validators.js';
 
 // Global State
 let transactions = [];
+let editingId = null;
 
 // DOM Elements
 const form = document.querySelector('.entry-form');
 const searchInput = document.getElementById('search');
 const sortSelect = document.getElementById('sort-by');
-const tableBody = document.querySelector('.records-table tbody'); // Ensure this selector matches HTML
-const cardsContainer = document.querySelector('.records-cards');
 
 // Navigation Elements
 const navLinks = document.querySelectorAll('.nav-link');
@@ -72,12 +72,12 @@ function switchPage(targetId) {
  * Render App
  */
 function renderApp() {
-  // Simplified rendering logic
   // 1. Filter
   const query = searchInput.value.toLowerCase().trim();
   let filtered = transactions.filter(t =>
     t.description.toLowerCase().includes(query) ||
-    t.amount.toString().includes(query)
+    t.amount.toString().includes(query) ||
+    t.category.toLowerCase().includes(query)
   );
 
   // 2. Sort
@@ -91,15 +91,10 @@ function renderApp() {
   });
 
   // 3. Update DOM
-  // Note: We need to make sure renderTransactions accepts "filtered"
-  // If renderTransactions is imported, check its definition. 
-  // For safety, I will rely on the imported functions but ensure they work with the new IDs if changed.
-  // The HTML IDs have been updated slightly (e.g. table body id), let's ensure ui.js is compatible or I should update it too.
-  // Since I can't see ui.js right now in this turn, I'll assume standard DOM references or pass elements.
-  // The imported `renderTransactions` likely selects elements inside itself.
-  // To be safe, let's look at `ui.js` in the next step, but for now I'll call it.
-
-  renderTransactions(filtered);
+  renderTransactions(filtered, {
+    searchRegex: null,
+    editingId: editingId
+  });
   updateDashboard(transactions);
 }
 
@@ -116,6 +111,60 @@ function loadTheme() {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
+  }
+}
+
+/**
+ * Action Handlers
+ */
+function handleDelete(id) {
+  if (confirm('Are you sure you want to delete this transaction?')) {
+    transactions = transactions.filter(t => t.id !== id);
+    save(transactions);
+    renderApp();
+    showNotification('Transaction deleted.', 'info');
+  }
+}
+
+function handleEdit(id) {
+  editingId = id;
+  renderApp();
+}
+
+function handleCancelEdit() {
+  editingId = null;
+  renderApp();
+}
+
+function handleSaveEdit(id) {
+  const newDesc = document.getElementById(`edit-desc-${id}`).value.trim();
+  const newAmount = parseFloat(document.getElementById(`edit-amount-${id}`).value);
+  const newDate = document.getElementById(`edit-date-${id}`).value;
+  const newCat = document.getElementById(`edit-cat-${id}`).value;
+
+  const updatedData = {
+    description: newDesc,
+    amount: newAmount,
+    date: newDate,
+    category: newCat
+  };
+
+  const validation = validateTransaction(updatedData);
+
+  if (!validation.isValid) {
+    const errorMsg = Object.values(validation.errors).join('\n');
+    showNotification(`Validation Error:\n${errorMsg}`, 'error');
+    return;
+  }
+
+  // Update transaction
+  const index = transactions.findIndex(t => t.id === id);
+  if (index !== -1) {
+    transactions[index] = { ...transactions[index], ...updatedData };
+    save(transactions);
+    editingId = null;
+    renderApp();
+    showNotification('Transaction updated!', 'success');
   }
 }
 
@@ -155,12 +204,22 @@ function setupEventListeners() {
     e.preventDefault();
     const formData = new FormData(form);
     const newTxn = {
-      id: generateID(),
       description: formData.get('description').trim(),
       amount: parseFloat(formData.get('amount')),
       date: formData.get('date'),
       category: formData.get('category'),
     };
+
+    const validation = validateTransaction(newTxn);
+
+    if (!validation.isValid) {
+      const errorMsg = Object.values(validation.errors).join('\n');
+      showNotification(`Validation Error:\n${errorMsg}`, 'error');
+      return;
+    }
+
+    // Add ID
+    newTxn.id = generateID();
 
     transactions.push(newTxn);
     save(transactions);
@@ -168,33 +227,38 @@ function setupEventListeners() {
     form.reset();
 
     // Reset date to today
-    document.getElementById('date').valueAsDate = new Date();
+    const dateInput = document.getElementById('date');
+    if (dateInput) dateInput.valueAsDate = new Date();
 
     showNotification('Transaction added!', 'success');
-
-    // Auto-switch to records view to see it (optional, but nice)
     switchPage('records');
   });
 
-  // Search & Sort used input/change events
+  // Search & Sort
   searchInput.addEventListener('input', renderApp);
   sortSelect.addEventListener('change', renderApp);
 
-  // Table Actions (Delegation)
-  // We need to listen on the table container or body
-  // Defining a helper to handle delete commands from the UI
+  // Click Delegation for Table Actions
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-icon'); // Assuming delete buttons have this class and data-id
+    const btn = e.target.closest('button[data-action]');
     if (!btn) return;
 
+    const action = btn.dataset.action;
     const id = btn.dataset.id;
-    if (btn.classList.contains('danger') || btn.getAttribute('aria-label') === 'Delete transaction') { // Check explicit class or label
-      if (confirm('Delete this transaction?')) {
-        transactions = transactions.filter(t => t.id !== id);
-        save(transactions);
-        renderApp();
-        showNotification('Transaction deleted.', 'info');
-      }
+
+    switch (action) {
+      case 'delete':
+        handleDelete(id);
+        break;
+      case 'edit':
+        handleEdit(id);
+        break;
+      case 'save-edit':
+        handleSaveEdit(id);
+        break;
+      case 'cancel-edit':
+        handleCancelEdit();
+        break;
     }
   });
 }
