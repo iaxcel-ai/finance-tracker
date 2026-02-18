@@ -7,7 +7,6 @@ import { formatCurrency, formatDate, escapeHTML } from './utils.js';
 
 const elements = {
   tableBody: document.getElementById('transaction-list-table'),
-  cardsContainer: document.getElementById('transaction-list-cards'),
   totalBalance: document.getElementById('total-balance'),
   monthlySpending: document.getElementById('monthly-spending'),
   topCategory: document.getElementById('top-category')
@@ -32,11 +31,9 @@ export function highlight(text, regex) {
 export function renderTransactions(transactions, { searchRegex = null, editingId = null } = {}) {
   // Clear existing
   elements.tableBody.innerHTML = '';
-  elements.cardsContainer.innerHTML = '';
 
   if (transactions.length === 0) {
     elements.tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No transactions found.</td></tr>';
-    elements.cardsContainer.innerHTML = '<p class="text-center text-muted">No transactions found.</p>';
     return;
   }
 
@@ -81,37 +78,6 @@ export function renderTransactions(transactions, { searchRegex = null, editingId
             `;
     }
     elements.tableBody.appendChild(row);
-
-    // 2. Mobile Card (Simplified, usually better to keep editing in table for this specific request)
-    const card = document.createElement('article');
-    card.className = 'record-card';
-    if (isEditing) {
-      card.innerHTML = `
-                <div class="card-body">
-                    <p class="text-center font-bold">Editing in table...</p>
-                    <div class="flex justify-center gap-2 mt-2">
-                         <button type="button" class="btn btn-sm btn-success" data-id="${txn.id}" data-action="save-edit">Save</button>
-                         <button type="button" class="btn btn-sm btn-secondary" data-id="${txn.id}" data-action="cancel-edit">Cancel</button>
-                    </div>
-                </div>
-            `;
-    } else {
-      card.innerHTML = `
-                <div class="card-header">
-                    <span class="date">${dateFormatted}</span>
-                    <span class="badge category-${txn.category.toLowerCase()}">${txn.category}</span>
-                </div>
-                <div class="card-body">
-                    <h3>${descriptionHTML}</h3>
-                    <p class="amount">${amountFormatted}</p>
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-id="${txn.id}" data-action="edit">Edit</button>
-                    <button type="button" class="btn btn-sm btn-danger" data-id="${txn.id}" data-action="delete">Delete</button>
-                </div>
-            `;
-    }
-    elements.cardsContainer.appendChild(card);
   });
 }
 
@@ -131,7 +97,6 @@ export function updateDashboard(transactions) {
 
 function updateMonthlySpending(transactions) {
   // Implementation for monthly spending stat
-  // For now, placeholder or basic sum of current month
   const now = new Date();
   const currentMonth = now.getMonth();
   const currentYear = now.getFullYear();
@@ -149,8 +114,7 @@ function updateMonthlySpending(transactions) {
 }
 
 /**
- * Shows a temporary notification (Toast).
- * Uses ARIA live region for accessibility.
+ * Shows a temporary notification
  * @param {string} message 
  * @param {string} type - 'success', 'error', 'info'
  */
@@ -166,7 +130,6 @@ export function showNotification(message, type = 'info') {
     document.body.appendChild(liveRegion);
   }
 
-  // If error, use 'assertive'
   if (type === 'error') {
     liveRegion.setAttribute('role', 'alert');
     liveRegion.setAttribute('aria-live', 'assertive');
