@@ -199,9 +199,23 @@ function setupEventListeners() {
     }
   });
 
+  // Real-time validation for description
+  const descInput = document.getElementById('description');
+  if (descInput) {
+    descInput.addEventListener('input', () => {
+      const val = descInput.value;
+      if (/\d/.test(val)) {
+        descInput.setCustomValidity('Numbers are not allowed in the description.');
+      } else {
+        descInput.setCustomValidity('');
+      }
+    });
+  }
+
   // Form Submit
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    alert('DEBUG: Submit handler triggered');
     const formData = new FormData(form);
     const newTxn = {
       description: formData.get('description').trim(),
@@ -211,8 +225,11 @@ function setupEventListeners() {
     };
 
     const validation = validateTransaction(newTxn);
+    console.log('Validating new transaction:', newTxn);
+    console.log('Validation result:', validation);
 
     if (!validation.isValid) {
+      console.warn('Validation failed:', validation.errors);
       const errorMsg = Object.values(validation.errors).join('\n');
       showNotification(`Validation Error:\n${errorMsg}`, 'error');
       return;
