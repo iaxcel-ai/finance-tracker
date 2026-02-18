@@ -51,7 +51,7 @@ export function renderTransactions(transactions, { searchRegex = null, editingId
     if (isEditing) {
       row.innerHTML = `
                 <td><input type="date" class="form-control-sm" id="edit-date-${txn.id}" value="${txn.date}"></td>
-                <td><input type="text" class="form-control-sm" id="edit-desc-${txn.id}" value="${escapeHTML(txn.description)}"></td>
+                <td><input type="text" class="form-control-sm" id="edit-desc-${txn.id}" value="${escapeHTML(txn.description)}" pattern="[A-Za-zÀ-ÿ]+( [A-Za-zÀ-ÿ]+)*" title="Letters and single spaces only"></td>
                 <td>
                     <select class="form-control-sm" id="edit-cat-${txn.id}">
                         <option value="Food" ${txn.category === 'Food' ? 'selected' : ''}>Food</option>
@@ -177,7 +177,10 @@ export function showNotification(message, type = 'info') {
 
   liveRegion.textContent = message;
 
-  // Optional: Visual toast implementation could go here
-  if (type === 'error') alert(message); // Fallback/Simple for now
-  else console.log(message);
+  // Visual feedback
+  if (type === 'error') {
+    alert(`ERR: ${message}`); // Prefix with ERR for clarity
+  } else {
+    console.log(`INFO: ${message}`);
+  }
 }
