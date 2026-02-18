@@ -246,6 +246,44 @@ a:hover {
   font-size: var(--font-size-sm);
 }
 
+.btn-success {
+  background-color: var(--color-secondary);
+  color: white;
+  border-color: var(--color-secondary);
+}
+
+.btn-success:hover {
+  filter: brightness(0.9);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-icon {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: var(--font-size-sm);
+}
+
+.btn-icon:hover {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-icon.danger {
+  color: var(--color-danger);
+  border-color: var(--color-border);
+}
+
+.btn-icon.danger:hover {
+  background: rgb(248 113 113 / 0.1);
+  border-color: var(--color-danger);
+}
+
 /* Cards */
 .card {
   background: var(--color-surface);
