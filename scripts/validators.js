@@ -3,16 +3,12 @@
  */
 
 const PATTERNS = {
-  // descriptionRegex: /^\S(?:.*\S)?$/
-  description: /^\S(?:.*\S)?$/,
+  description: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
 
-  // amountRegex: /^(0|[1-9]\d*)(\.\d{1,2})?$/
   amount: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
 
-  // categoryRegex: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/
   category: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/,
 
-  // currencyRegex: /^\S(?:.*\S)?$/
   currency: /^\S(?:.*\S)?$/,
 
   // Date: YYYY-MM-DD
@@ -29,10 +25,17 @@ const ALLOWED_CATEGORIES = ['Food', 'Books', 'Transport', 'Entertainment', 'Fees
  */
 export function validateTransaction(data) {
   const errors = {};
+  console.log('Running validateTransaction for:', data.description);
 
   // Description Validation
-  if (!data.description || !PATTERNS.description.test(data.description)) {
-    errors.description = 'Invalid description. Check format.';
+  if (!data.description) {
+    errors.description = 'Description is required.';
+  } else if (/\d/.test(data.description)) {
+    console.log('Digit detected in description!');
+    errors.description = 'Description cannot contain numbers.';
+  } else if (!PATTERNS.description.test(data.description)) {
+    console.log('Regex PATTERNS.description test failed!');
+    errors.description = 'Description must contain only letters and single spaces.';
   }
 
   // Amount Validation
