@@ -129,7 +129,8 @@
                 <form class="entry-form">
                     <div class="form-group">
                         <label for="description">Description (What was it?)</label>
-                        <input type="text" id="description" name="description" required placeholder="e.g. Bus ticket">
+                        <input type="text" id="description" name="description" required placeholder="e.g. Bus ticket"
+                            pattern="[A-Za-zÀ-ÿ]+( [A-Za-zÀ-ÿ]+)*" title="Please enter only letters and single spaces.">
                     </div>
 
                     <div class="form-row"> <!-- Defined in style.css or update -->
