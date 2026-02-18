@@ -3,21 +3,20 @@
  */
 
 const PATTERNS = {
-  // Description: No leading/trailing spaces, collapse doubles, must have content.
-  description: /^\S+(?: \S+)*$/,
+  // descriptionRegex: /^\S(?:.*\S)?$/
+  description: /^\S(?:.*\S)?$/,
 
-  // Amount: Positive number, optional 2 decimal places. 0 is allowed but standard says >0 generally involved in finance, but we allow 0.
+  // amountRegex: /^(0|[1-9]\d*)(\.\d{1,2})?$/
   amount: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
 
-  // Date: YYYY-MM-DD (Basic format check, valid date logic is mostly browser handled but good to enforce).
-  date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
-
-  // Category: Letters, spaces, hyphens.
+  // categoryRegex: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/
   category: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/,
 
-  // Advanced: Duplicate word detection (case-insensitive).
-  // Matches a word boundary, a word, space, then the same word again.
-  duplicateWords: /\b(\w+)\s+\1\b/i
+  // currencyRegex: /^\S(?:.*\S)?$/
+  currency: /^\S(?:.*\S)?$/,
+
+  // Date: YYYY-MM-DD
+  date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/
 };
 
 // Allowed categories (Could be dynamic, but hardcoded for now based on spec)
@@ -33,13 +32,11 @@ export function validateTransaction(data) {
 
   // Description Validation
   if (!data.description || !PATTERNS.description.test(data.description)) {
-    errors.description = 'Invalid description. No leading/trailing spaces.';
-  } else if (PATTERNS.duplicateWords.test(data.description)) {
-    errors.description = 'Description contains duplicate words (e.g., "coffee coffee").';
+    errors.description = 'Invalid description. Check format.';
   }
 
   // Amount Validation
-  if (!data.amount || !PATTERNS.amount.test(String(data.amount)) || parseFloat(data.amount) < 0) {
+  if (!data.amount || !PATTERNS.amount.test(String(data.amount))) {
     errors.amount = 'Invalid amount. Must be a positive number (max 2 decimals).';
   }
 
