@@ -27,9 +27,9 @@ export function highlight(text, regex) {
 /**
  * Renders the transactions list (Table & Cards).
  * @param {Array} transactions 
- * @param {RegExp} searchRegex - Optional regex for highlighting
+ * @param {Object} options - { searchRegex, editingId }
  */
-export function renderTransactions(transactions, searchRegex = null) {
+export function renderTransactions(transactions, { searchRegex = null, editingId = null } = {}) {
   // Clear existing
   elements.tableBody.innerHTML = '';
   elements.cardsContainer.innerHTML = '';
@@ -41,41 +41,76 @@ export function renderTransactions(transactions, searchRegex = null) {
   }
 
   transactions.forEach(txn => {
+    const isEditing = txn.id === editingId;
     const descriptionHTML = searchRegex ? highlight(txn.description, searchRegex) : escapeHTML(txn.description);
     const amountFormatted = formatCurrency(txn.amount);
     const dateFormatted = formatDate(txn.date);
 
     // 1. Table Row
     const row = document.createElement('tr');
-    row.innerHTML = `
-            <td>${dateFormatted}</td>
-            <td>${descriptionHTML}</td>
-            <td><span class="badge category-${txn.category.toLowerCase()}">${txn.category}</span></td>
-            <td class="text-right">${amountFormatted}</td>
-            <td class="text-right">
-                <button type="button" class="btn-icon" aria-label="Edit ${escapeHTML(txn.description)}" data-id="${txn.id}" data-action="edit">Edit</button>
-                <button type="button" class="btn-icon danger" aria-label="Delete ${escapeHTML(txn.description)}" data-id="${txn.id}" data-action="delete">Delete</button>
-            </td>
-        `;
+    if (isEditing) {
+      row.innerHTML = `
+                <td><input type="date" class="form-control-sm" id="edit-date-${txn.id}" value="${txn.date}"></td>
+                <td><input type="text" class="form-control-sm" id="edit-desc-${txn.id}" value="${escapeHTML(txn.description)}"></td>
+                <td>
+                    <select class="form-control-sm" id="edit-cat-${txn.id}">
+                        <option value="Food" ${txn.category === 'Food' ? 'selected' : ''}>Food</option>
+                        <option value="Books" ${txn.category === 'Books' ? 'selected' : ''}>Books</option>
+                        <option value="Transport" ${txn.category === 'Transport' ? 'selected' : ''}>Transport</option>
+                        <option value="Entertainment" ${txn.category === 'Entertainment' ? 'selected' : ''}>Entertainment</option>
+                        <option value="Fees" ${txn.category === 'Fees' ? 'selected' : ''}>Fees</option>
+                        <option value="Other" ${txn.category === 'Other' ? 'selected' : ''}>Other</option>
+                    </select>
+                </td>
+                <td class="text-right"><input type="number" step="0.01" class="form-control-sm text-right" id="edit-amount-${txn.id}" value="${txn.amount}" style="width: 100px;"></td>
+                <td class="text-right">
+                    <button type="button" class="btn btn-sm btn-success" data-id="${txn.id}" data-action="save-edit">Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-id="${txn.id}" data-action="cancel-edit">Cancel</button>
+                </td>
+            `;
+    } else {
+      row.innerHTML = `
+                <td>${dateFormatted}</td>
+                <td>${descriptionHTML}</td>
+                <td><span class="badge category-${txn.category.toLowerCase()}">${txn.category}</span></td>
+                <td class="text-right">${amountFormatted}</td>
+                <td class="text-right">
+                    <button type="button" class="btn-icon" aria-label="Edit ${escapeHTML(txn.description)}" data-id="${txn.id}" data-action="edit">Edit</button>
+                    <button type="button" class="btn-icon danger" aria-label="Delete ${escapeHTML(txn.description)}" data-id="${txn.id}" data-action="delete">Delete</button>
+                </td>
+            `;
+    }
     elements.tableBody.appendChild(row);
 
-    // 2. Mobile Card
+    // 2. Mobile Card (Simplified, usually better to keep editing in table for this specific request)
     const card = document.createElement('article');
     card.className = 'record-card';
-    card.innerHTML = `
-            <div class="card-header">
-                <span class="date">${dateFormatted}</span>
-                <span class="badge category-${txn.category.toLowerCase()}">${txn.category}</span>
-            </div>
-            <div class="card-body">
-                <h3>${descriptionHTML}</h3>
-                <p class="amount">${amountFormatted}</p>
-            </div>
-            <div class="card-footer">
-                <button type="button" class="btn-sm" data-id="${txn.id}" data-action="edit">Edit</button>
-                <button type="button" class="btn-sm danger" data-id="${txn.id}" data-action="delete">Delete</button>
-            </div>
-        `;
+    if (isEditing) {
+      card.innerHTML = `
+                <div class="card-body">
+                    <p class="text-center font-bold">Editing in table...</p>
+                    <div class="flex justify-center gap-2 mt-2">
+                         <button type="button" class="btn btn-sm btn-success" data-id="${txn.id}" data-action="save-edit">Save</button>
+                         <button type="button" class="btn btn-sm btn-secondary" data-id="${txn.id}" data-action="cancel-edit">Cancel</button>
+                    </div>
+                </div>
+            `;
+    } else {
+      card.innerHTML = `
+                <div class="card-header">
+                    <span class="date">${dateFormatted}</span>
+                    <span class="badge category-${txn.category.toLowerCase()}">${txn.category}</span>
+                </div>
+                <div class="card-body">
+                    <h3>${descriptionHTML}</h3>
+                    <p class="amount">${amountFormatted}</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-id="${txn.id}" data-action="edit">Edit</button>
+                    <button type="button" class="btn btn-sm btn-danger" data-id="${txn.id}" data-action="delete">Delete</button>
+                </div>
+            `;
+    }
     elements.cardsContainer.appendChild(card);
   });
 }
