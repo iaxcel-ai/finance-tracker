@@ -1,27 +1,16 @@
 :root {
-    /* Core Colors */
     --color-primary: #D946EF;
-    /* Fuchsia 500 */
     --color-primary-hover: #C026D3;
-    /* Fuchsia 600 */
     --color-secondary: #34D399;
-    /* Emerald 400 */
     --color-accent: #FBBF24;
-    /* Amber 400 */
     --color-danger: #F87171;
-    /* Red 400 */
 
     /* Light Theme (Default) */
     --color-bg: #FDF2F8;
-    /* Light Pinkish background */
     --color-surface: #FFFFFF;
-    /* White surface */
     --color-text-main: #4A044E;
-    /* Dark Purple Text */
     --color-text-muted: #86198F;
-    /* Muted Purple */
     --color-border: #FBCFE8;
-    /* Light Pink Border */
 
     /* Typography */
     --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
@@ -56,15 +45,10 @@
 /* Dark Theme overrides */
 body.dark-mode {
     --color-bg: #2A0A2A;
-    /* Very Dark Magenta/Purple */
     --color-surface: #4A1D4A;
-    /* Dark Magenta Surface */
     --color-text-main: #FDF4FF;
-    /* Very light pink/white */
     --color-text-muted: #E879F9;
-    /* Muted pink/magenta */
     --color-border: #701A75;
-    /* Border color */
 
     /* Adjust shadow for dark mode visibility if needed, or keep as is */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
