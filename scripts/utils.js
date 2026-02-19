@@ -8,15 +8,34 @@
  * @param {string} currency the currency code (e.g., 'USD', 'EUR').
  * @returns {string} formatted currency string.
  */
+const EXCHANGE_RATES = {
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.79,
+  KES: 130.0,
+  INR: 83.0,
+  JPY: 150.0
+};
+
+/**
+ * formats a number as a currency string.
+ * @param {number} amount the numeric amount.
+ * @param {string} currency the currency code (e.g., 'USD', 'EUR').
+ * @returns {string} formatted currency string.
+ */
 export function formatCurrency(amount, currency = 'USD') {
   // check storage for override
   const storedCurrency = localStorage.getItem('currency');
   const finalCurrency = storedCurrency || currency;
 
+  // convertion
+  const rate = EXCHANGE_RATES[finalCurrency] || 1;
+  const convertedAmount = amount * rate;
+
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: finalCurrency,
-  }).format(amount);
+  }).format(convertedAmount);
 }
 
 /**

@@ -2,7 +2,7 @@
  * main app logic
  */
 
-import { load, save, getBudget, setBudget } from './storage.js';
+import { load, save, getBudget, setBudget, exportData, importData } from './storage.js';
 import { renderTransactions, updateDashboard, showNotification } from './ui.js';
 import { generateID } from './utils.js';
 import { validateTransaction } from './validators.js';
@@ -193,6 +193,68 @@ function setupEventListeners() {
       showNotification('All data deleted.', 'info');
     }
   });
+
+  // Currency Selector
+  const currencySelect = document.getElementById('currency-select');
+  if (currencySelect) {
+      // Set initial value
+      currencySelect.value = localStorage.getItem('currency') || 'USD';
+      
+      currencySelect.addEventListener('change', (e) => {
+          localStorage.setItem('currency', e.target.value);
+          renderApp(); // Re-render to update all formatted prices
+          showNotification(`Currency changed to ${e.target.value}`, 'success');
+      });
+  }
+
+  // Export Data
+  const exportBtn = document.getElementById('export-btn');
+  if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+          const url = exportData(transactions);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `finance_data_${new Date().toISOString().split('T')[0]}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showNotification('Data exported successfully.', 'success');
+      });
+  }
+
+  // Import Data
+  const importTrigger = document.getElementById('import-trigger-btn');
+  const importInput = document.getElementById('import-file');
+
+  if (importTrigger && importInput) {
+      importTrigger.addEventListener('click', () => importInput.click());
+
+      importInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (event) => {
+              const imported = importData(event.target.result);
+              if (imported) {
+                  // Merge Strategy: Append new items (could add duplicate check based on ID)
+                  // Simple approach: Concat and save
+                  const newTransactions = [...transactions, ...imported];
+                  // Removing potential duplicates by ID just in case
+                  const unique = Array.from(new Map(newTransactions.map(item => [item.id, item])).values());
+                  
+                  transactions = unique;
+                  save(transactions);
+                  renderApp();
+                  showNotification(`Imported ${imported.length} records.`, 'success');
+              } else {
+                  showNotification('Failed to import data. Check file format.', 'error');
+              }
+              // Reset input
+              importInput.value = '';
+          };
+          reader.readAsText(file);
+      });
+  }
 
   // budget inline edit
   const toggleBtn = document.getElementById('toggle-budget-edit');
