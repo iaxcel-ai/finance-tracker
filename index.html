@@ -227,6 +227,36 @@
                     <h2>Settings</h2>
                 </header>
                 <div class="settings-grid">
+                    <!-- currency -->
+                    <div class="settings-option">
+                        <div>
+                            <h3>Display Currency</h3>
+                            <p>Select your preferred currency for display.</p>
+                        </div>
+                        <select id="currency-select" class="form-control-sm" style="width: auto;">
+                            <option value="USD" selected>USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="KES">KES (Ksh)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="JPY">JPY (¥)</option>
+                        </select>
+                    </div>
+
+                    <!-- data management -->
+                    <div class="settings-option">
+                        <div>
+                            <h3>Backup & Restore</h3>
+                            <p>Export your data to a file or restore from backup.</p>
+                        </div>
+                        <div class="actions-row">
+                            <button id="export-btn" class="btn btn-sm btn-primary">Export Data</button>
+                            <button id="import-trigger-btn" class="btn btn-sm btn-secondary">Import Data</button>
+                            <input type="file" id="import-file" accept=".json" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- theme -->
                     <div class="settings-option">
                         <div>
                             <h3>Dark Mode</h3>
@@ -235,6 +265,7 @@
                         <button id="theme-toggle" class="btn btn-secondary">Toggle Theme</button>
                     </div>
 
+                    <!-- delete all -->
                     <div class="settings-option">
                         <div>
                             <h3>Delete All Data</h3>
