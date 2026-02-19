@@ -7,30 +7,33 @@
     <meta name="description" content="A student finance tracker to manage budgets and expenses.">
     <title>Student Finance Tracker</title>
 
-    <!-- CSS Imports -->
+    <!-- css imports -->
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/variables.css">
     <link rel="stylesheet" href="styles/style.css">
 
-    <!-- Google Fonts -->
+    <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- Skip Link for Accessibility -->
+    <!-- skip link for accessibility -->
     <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
 
-    <!-- Mobile Menu Toggle -->
+    <!-- mobile menu toggle -->
     <button class="mobile-menu-btn icon-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation">
         ☰
     </button>
 
     <div class="app-container">
 
-        <!-- Sidebar Navigation -->
+        <!-- sidebar navigation -->
         <aside class="sidebar" id="sidebar">
             <header class="sidebar-header">
                 <h1>FinanceTracker</h1>
@@ -48,32 +51,79 @@
             </footer>
         </aside>
 
-        <!-- Main Content (Pages) -->
+        <!-- main content (pages) -->
         <main id="main-content" class="main-content">
 
-            <!-- Dashboard Page -->
+            <!-- dashboard page -->
             <section id="dashboard" class="page-section active">
                 <header class="section-header">
                     <h2>Dashboard</h2>
                 </header>
+                
+                <!-- stats grid -->
                 <div class="stats-grid">
                     <article class="stat-card">
                         <h3>Total Balance</h3>
                         <p class="stat-value" id="total-balance" data-currency="USD">$0.00</p>
                     </article>
                     <article class="stat-card">
-                        <h3>Monthly Spending</h3>
+                        <h3>Monthly Expenses</h3>
                         <p class="stat-value" id="monthly-spending" data-currency="USD">$0.00</p>
-                        <!-- <p class="stat-trend negative">↑ 0% vs last month</p> Trend can be added later -->
+                    </article>
+                    <article class="stat-card">
+                        <h3>Total Volume</h3>
+                        <p class="stat-value" id="total-volume" data-currency="USD">$0.00</p>
+                    </article>
+                    <article class="stat-card">
+                        <h3>Total Records</h3>
+                        <p class="stat-value" id="total-records">0</p>
                     </article>
                     <article class="stat-card">
                         <h3>Top Category</h3>
                         <p class="stat-value" id="top-category">-</p>
                     </article>
                 </div>
+
+                <!-- budget section -->
+                <div class="dashboard-row mt-md">
+                    <div class="card budget-card">
+                        <div class="budget-header">
+                            <h3>Monthly Budget</h3>
+                            <button id="toggle-budget-edit" class="btn-icon" aria-label="Edit Budget">✎</button>
+                        </div>
+                        
+                        <div id="budget-display">
+                            <div class="budget-info">
+                                <span id="budget-remaining-text" class="text-xl font-bold">$0.00 Remaining</span>
+                            </div>
+                            <p class="budget-subtext">Spent <span id="budget-amount">$0.00</span> of <span id="budget-limit">$0.00</span></p>
+                        </div>
+
+                        <form id="budget-form" class="hidden budget-form">
+                            <input type="number" id="new-budget-input" placeholder="Enter limit" min="0" step="10">
+                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                            <button type="button" id="cancel-budget-edit" class="btn btn-sm btn-secondary">Cancel</button>
+                        </form>
+
+                        <div class="progress-bar-container mt-sm">
+                            <div class="progress-bar" id="budget-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="budget-forecast" id="budget-forecast">Set a budget to see forecast.</p>
+                    </div>
+                </div>
+
+                <!-- charts section -->
+                <div class="dashboard-row mt-md">
+                    <div class="card chart-card">
+                        <h3>Last 7 Days Trend</h3>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Records Page -->
+            <!-- records page -->
             <section id="records" class="page-section">
                 <header class="section-header">
                     <h2>Recent Transactions</h2>
@@ -106,7 +156,7 @@
                             </tr>
                         </thead>
                         <tbody id="transaction-list-table">
-                            <!-- Transactions will be populated here -->
+                            <!-- transactions will be populated here -->
                             <tr>
                                 <td colspan="5" class="text-center">No transactions found.</td>
                             </tr>
@@ -116,12 +166,23 @@
                 </div>
             </section>
 
-            <!-- Add Entry Page -->
+            <!-- add entry page -->
             <section id="add-entry" class="page-section">
                 <header class="section-header">
                     <h2>Add New Transaction</h2>
                 </header>
                 <form class="entry-form">
+                    <div class="form-group">
+                        <label>Transaction Type</label>
+                        <div class="segmented-control">
+                            <input type="radio" name="type" id="type-expense" value="expense" checked>
+                            <label for="type-expense" class="segment-label segment-expense">Expense</label>
+                            
+                            <input type="radio" name="type" id="type-income" value="income">
+                            <label for="type-income" class="segment-label segment-income">Income</label>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="description">Description (What was it?)</label>
                         <input type="text" id="description" name="description" required placeholder="e.g. Bus ticket"
@@ -160,7 +221,7 @@
                 </form>
             </section>
 
-            <!-- Settings Page -->
+            <!-- settings page -->
             <section id="settings" class="page-section">
                 <header class="section-header">
                     <h2>Settings</h2>
@@ -187,7 +248,7 @@
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- scripts -->
     <script type="module" src="scripts/app.js"></script>
 </body>
 
