@@ -1,5 +1,5 @@
 /**
- * Validators & Regex Patterns
+ * validators & regex patterns
  */
 
 const PATTERNS = {
@@ -11,15 +11,15 @@ const PATTERNS = {
 
   currency: /^\S(?:.*\S)?$/,
 
-  // Date: YYYY-MM-DD
+  // date: YYYY-MM-DD
   date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/
 };
 
-// Allowed categories (Could be dynamic, but hardcoded for now based on spec)
+// allowed categories
 const ALLOWED_CATEGORIES = ['Food', 'Books', 'Transport', 'Entertainment', 'Fees', 'Other'];
 
 /**
- * Validates transaction form data.
+ * validates transaction form data.
  * @param {Object} data - { description, amount, date, category }
  * @returns {Object} - { isValid: boolean, errors: Object }
  */
@@ -27,7 +27,7 @@ export function validateTransaction(data) {
   const errors = {};
   console.log('Running validateTransaction for:', data.description);
 
-  // Description Validation
+  // description validation
   if (!data.description) {
     errors.description = 'Description is required.';
   } else if (/\d/.test(data.description)) {
@@ -38,19 +38,27 @@ export function validateTransaction(data) {
     errors.description = 'Description must contain only letters and single spaces.';
   }
 
-  // Amount Validation
+  // amount validation
   if (!data.amount || !PATTERNS.amount.test(String(data.amount))) {
     errors.amount = 'Invalid amount. Must be a positive number (max 2 decimals).';
   }
 
-  // Date Validation
+  // date validation
   if (!data.date || !PATTERNS.date.test(data.date)) {
     errors.date = 'Invalid date format (YYYY-MM-DD).';
   }
 
-  // Category Validation
-  if (!ALLOWED_CATEGORIES.includes(data.category)) {
-    errors.category = 'Invalid category selected.';
+  // category validation
+  if (data.type === 'expense' && !ALLOWED_CATEGORIES.includes(data.category)) {
+     // strict check for expenses
+     errors.category = 'Invalid category selected.';
+  } else if (!data.category) {
+      errors.category = 'Category is required.';
+  }
+
+  // type validation
+  if (!['income', 'expense'].includes(data.type)) {
+      errors.type = 'Invalid transaction type.';
   }
 
   return {
@@ -60,9 +68,9 @@ export function validateTransaction(data) {
 }
 
 /**
- * Safe Regex Compiler for Search
- * @param {string} pattern - The user input string
- * @returns {RegExp|null} - Compiled regex or null if invalid
+ * safe regex compiler for search
+ * @param {string} pattern the user input string
+ * @returns {RegExp|null} compiled regex or null if invalid
  */
 export function compileRegex(pattern) {
   try {

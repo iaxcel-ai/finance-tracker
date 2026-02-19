@@ -1,15 +1,15 @@
 /**
- * Utility Functions
+ * utility functions
  */
 
 /**
- * Formats a number as a currency string.
- * @param {number} amount - The numeric amount.
- * @param {string} currency - The currency code (e.g., 'USD', 'EUR').
- * @returns {string} - Formatted currency string.
+ * formats a number as a currency string.
+ * @param {number} amount the numeric amount.
+ * @param {string} currency the currency code (e.g., 'USD', 'EUR').
+ * @returns {string} formatted currency string.
  */
 export function formatCurrency(amount, currency = 'USD') {
-  // Check storage for override
+  // check storage for override
   const storedCurrency = localStorage.getItem('currency');
   const finalCurrency = storedCurrency || currency;
 
@@ -20,9 +20,9 @@ export function formatCurrency(amount, currency = 'USD') {
 }
 
 /**
- * Formats a date string (YYYY-MM-DD) to a readable locale date.
- * @param {string} dateStr - The date string from input[type="date"].
- * @returns {string} - Formatted date.
+ * formats a date string (YYYY-MM-DD) to a readable locale date.
+ * @param {string} dateStr the date string from input[type="date"].
+ * @returns {string} formatted date.
  */
 export function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -35,16 +35,16 @@ export function formatDate(dateStr) {
 }
 
 /**
- * Generates a unique ID with a prefix.
- * @param {string} prefix - The prefix for the ID (default 'txn').
- * @returns {string} - usage: txn_1727382...
+ * generates a unique ID with a prefix.
+ * @param {string} prefix the prefix for the ID (default 'txn').
+ * @returns {string} usage: txn_1727382...
  */
 export function generateID(prefix = 'txn') {
   return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 }
 
 /**
- * Escapes HTML to prevent XSS.
+ * escapes HTML to prevent XSS.
  * @param {string} str 
  * @returns {string}
  */

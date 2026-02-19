@@ -1,11 +1,10 @@
 /**
- * Storage Module
- * Handles localStorage and Import/Export logic.
- */
+ * storage module
+ handles localStorage and import/export logic.*/
 
 const STORAGE_KEY = 'finance_tracker_data';
 
-// Default Seed Data (used if storage is empty)
+// default seed data (used if storage is empty)
 const SEED_DATA = [
   {
     id: "txn_1",
@@ -28,8 +27,8 @@ const SEED_DATA = [
 ];
 
 /**
- * Loads transactions from localStorage.
- * @returns {Array} List of transactions.
+ * loads transactions from localStorage.
+ * @returns {Array} list of transactions.
  */
 export function load() {
   try {
@@ -42,7 +41,7 @@ export function load() {
 }
 
 /**
- * Saves transactions to localStorage.
+ * saves transactions to localStorage.
  * @param {Array} transactions 
  */
 export function save(transactions) {
@@ -50,12 +49,12 @@ export function save(transactions) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
   } catch (e) {
     console.error('Error saving data:', e);
-    // Could dispatch an event or throw error if quota exceeded
+    // could dispatch an event or throw error if quota exceeded
   }
 }
 
 /**
- * Exports data as a JSON blob URL.
+ * exports data as a JSON blob URL.
  * @param {Array} transactions 
  * @returns {string} URL for the blob
  */
@@ -66,16 +65,16 @@ export function exportData(transactions) {
 }
 
 /**
- * Parses and validates imported JSON data.
+ * parses and validates imported JSON data.
  * @param {string} jsonString 
- * @returns {Array|null} Validated data or null if invalid.
+ * @returns {Array|null} validated data or null if invalid.
  */
 export function importData(jsonString) {
   try {
     const data = JSON.parse(jsonString);
     if (!Array.isArray(data)) throw new Error('Root must be an array');
 
-    // Basic schema validation for each item
+    // basic schema validation for each item
     const isValid = data.every(item =>
       item.id &&
       item.description &&
@@ -91,4 +90,20 @@ export function importData(jsonString) {
     console.error('Import failed:', e);
     return null;
   }
+}
+
+/**
+ * gets the monthly budget.
+ * @returns {number}
+ */
+export function getBudget() {
+  return parseFloat(localStorage.getItem('monthly_budget')) || 0;
+}
+
+/**
+ * sets the monthly budget.
+ * @param {number} amount 
+ */
+export function setBudget(amount) {
+  localStorage.setItem('monthly_budget', amount);
 }
