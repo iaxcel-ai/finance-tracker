@@ -160,7 +160,7 @@ a:hover {
   gap: var(--spacing-md);
 }
 
-/* Mobile Responsiveness */
+/* mobile responsiveness */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
@@ -176,10 +176,10 @@ a:hover {
     width: 100%;
     padding: var(--spacing-md);
     padding-top: 60px;
-    /* Space for mobile header toggle */
+    /* space for mobile header toggle */
   }
 
-  /* Mobile Header Toggle */
+  /* mobile header toggle */
   .mobile-header {
     display: flex;
   }
@@ -277,7 +277,7 @@ a:hover {
   border-color: var(--color-danger);
 }
 
-/* Cards */
+/* cards */
 .card {
   background: var(--color-surface);
   padding: var(--spacing-lg);
@@ -286,7 +286,7 @@ a:hover {
   box-shadow: var(--shadow-sm);
 }
 
-/* Stats Grid */
+/* stats grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -321,7 +321,7 @@ a:hover {
   color: var(--color-text-main);
 }
 
-/* Tables */
+/* tables */
 .table-container {
   overflow-x: auto;
   background: var(--color-surface);
@@ -351,7 +351,7 @@ a:hover {
   font-weight: 600;
 }
 
-/* Forms */
+/* forms */
 .form-group {
   margin-bottom: var(--spacing-lg);
 }
@@ -380,7 +380,7 @@ select:focus {
   box-shadow: 0 0 0 3px rgb(217 70 239 / 0.1);
 }
 
-/* Badges */
+/* badges */
 .badge {
   padding: 0.25rem 0.625rem;
   font-size: 0.75rem;
@@ -403,7 +403,7 @@ select:focus {
   color: var(--color-accent);
 }
 
-/* Utilities */
+/* utilities */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -423,7 +423,7 @@ select:focus {
   margin-top: var(--spacing-md);
 }
 
-/* Settings Specific */
+/* settings specific */
 .settings-option {
   display: flex;
   justify-content: space-between;
@@ -432,7 +432,7 @@ select:focus {
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Mobile Toggle Button (Visible only on mobile) */
+/* mobile toggle button (visible only on mobile) */
 .mobile-menu-btn {
   display: none;
   position: fixed;
@@ -449,4 +449,151 @@ select:focus {
   .mobile-menu-btn {
     display: block;
   }
+}
+
+/* charts */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* budget section */
+.budget-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.budget-info {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 12px;
+    background-color: var(--color-bg);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--color-primary);
+    width: 0%;
+    transition: width 0.5s ease, background-color 0.3s ease;
+}
+
+.budget-forecast {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+/* helper for rows */
+.dashboard-row {
+    width: 100%;
+}
+
+/* from types.css*/
+
+/* transaction types */
+.amount-income {
+    color: var(--color-secondary); /* green */
+    font-weight: 600;
+}
+
+.amount-expense {
+    color: var(--color-danger); /* red/default */
+    font-weight: 600;
+}
+
+/* segmented control */
+.segmented-control {
+    display: flex;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    gap: 4px;
+}
+
+.segmented-control input[type="radio"] {
+    display: none; /* hide default radio */
+}
+
+.segment-label {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+/* unselected state */
+.segment-label:hover {
+    background-color: var(--color-bg);
+}
+
+/* selected states */
+#type-expense:checked + .segment-expense {
+    background-color: rgb(239 68 68 / 0.1);
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+#type-income:checked + .segment-income {
+    background-color: rgb(34 197 94 / 0.1);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* from ux.css*/
+
+/* utility */
+.hidden {
+    display: none !important;
+}
+
+.mt-sm {
+    margin-top: var(--spacing-sm);
+}
+
+.text-xl {
+    font-size: var(--font-size-xl);
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* budget specifics */
+.budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.budget-subtext {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.budget-form {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.budget-form input {
+    flex: 1;
+    padding: 0.4rem;
 }

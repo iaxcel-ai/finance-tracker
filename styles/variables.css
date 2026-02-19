@@ -5,14 +5,14 @@
     --color-accent: #FBBF24;
     --color-danger: #F87171;
 
-    /* Light Theme (Default) */
+    /* light theme (default) */
     --color-bg: #FDF2F8;
     --color-surface: #FFFFFF;
     --color-text-main: #4A044E;
     --color-text-muted: #86198F;
     --color-border: #FBCFE8;
 
-    /* Typography */
+    /* typography */
     --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
@@ -21,7 +21,7 @@
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 1.875rem;
 
-    /* Spacing */
+    /* spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -29,7 +29,7 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
 
-    /* Interface */
+    /* interface */
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
@@ -42,7 +42,7 @@
     --transition: all 0.2s ease-in-out;
 }
 
-/* Dark Theme overrides */
+/* dark theme overrides */
 body.dark-mode {
     --color-bg: #2A0A2A;
     --color-surface: #4A1D4A;
@@ -50,7 +50,7 @@ body.dark-mode {
     --color-text-muted: #E879F9;
     --color-border: #701A75;
 
-    /* Adjust shadow for dark mode visibility if needed, or keep as is */
+    /* adjust shadow for dark mode visibility if needed, or keep as is */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
 }
