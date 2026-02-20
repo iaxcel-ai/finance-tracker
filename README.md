@@ -19,7 +19,7 @@ A modern, responsive web application designed for students to manage their budge
 Initial hand-drawn planning for the Student Finance Tracker across all devices:
 
 ```carousel
-![Desktop Design](file:///d:/shuleni/finance-tracker/assets/design/desktop_sketch.jpg)
+![Desktop Design](https://github.com/iaxcel-ai/finance-tracker/blob/a8588378aa42467e2a7d1ab843b579bca062f05f/assets/design/desktop_sketch.jpg)
 <!-- slide -->
 ![Tablet Design](file:///d:/shuleni/finance-tracker/assets/design/tablet_sketch.jpg)
 <!-- slide -->
