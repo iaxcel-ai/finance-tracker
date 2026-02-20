@@ -25,7 +25,7 @@ Tablet Design
 
 Mobile Design
 ![Mobile Design](https://github.com/iaxcel-ai/finance-tracker/blob/ed6ab258037e133c18335021a7445cd166ce3d63/assets/design/mobile%20design.png)
-```
+
 
 ## 🛠️ Technology Stack
 
