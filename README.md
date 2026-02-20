@@ -80,6 +80,7 @@ Open `tests.html` in your browser to view the unit test suite and implementation
 - **Email**: i.axcel@alustudent.com
 - **GitHub**: [iaxcel-ai](https://github.com/iaxcel-ai)
 - **GitHub Pages**: [https://iaxcel-ai.github.io/finance-tracker/](https://iaxcel-ai.github.io/finance-tracker/)
+- **youtube video link**: https://youtu.be/084yOKflt6M
 
 ---
 
