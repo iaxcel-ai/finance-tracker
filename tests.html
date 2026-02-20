@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Tests - Finance Tracker</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.5; }
+        .success { color: green; }
+        .error { color: red; font-weight: bold; }
+        .test-case { margin-bottom: 10px; padding: 10px; border: 1px solid #eee; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Project Unit Tests</h1>
+    <div id="results">Running tests...</div>
+
+    <script type="module">
+        import { validateTransaction } from './scripts/validators.js';
+        import { formatCurrency, formatDate } from './scripts/utils.js';
+
+        const results = document.getElementById('results');
+        results.innerHTML = '';
+
+        function assert(condition, message) {
+            const div = document.createElement('div');
+            div.className = 'test-case ' + (condition ? 'success' : 'error');
+            div.textContent = (condition ? '✓ ' : '✗ ') + message;
+            results.appendChild(div);
+        }
+
+        // 1. validator Tests
+        console.log('Testing Validators...');
+        
+        const validTxn = {
+            description: 'Books and Pens',
+            amount: 50.00,
+            date: '2026-02-20',
+            category: 'Books',
+            type: 'expense'
+        };
+        assert(validateTransaction(validTxn).isValid, 'Valid transaction should pass');
+
+        const invalidAmount = { ...validTxn, amount: -5 };
+        assert(!validateTransaction(invalidAmount).isValid, 'Negative amount should fail');
+
+        const duplicateWords = { ...validTxn, description: 'Lunch Lunch' };
+        assert(!validateTransaction(duplicateWords).isValid, 'Duplicate consecutive words should fail (Advanced Regex)');
+
+        const numbersInDesc = { ...validTxn, description: 'Lunch 101' };
+        assert(!validateTransaction(numbersInDesc).isValid, 'Numbers in description should fail');
+
+        // 2. utility Tests
+        console.log('Testing Utils...');
+        
+        // Remove storage override to ensure test uses the passed currency
+        localStorage.removeItem('currency'); 
+        const formatted = formatCurrency(10, 'USD');
+        assert(formatted.includes('10.00'), 'Currency formatting works correctly for USD');
+        
+        assert(formatDate('2026-02-20').includes('2026'), 'Date formatting works');
+
+        const summary = document.createElement('h2');
+        summary.textContent = 'Tests Completed';
+        results.prepend(summary);
+    </script>
+</body>
+</html>
