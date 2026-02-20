@@ -1,0 +1,94 @@
+[
+  {
+    "id": "txn_1",
+    "description": "Lunch at cafeteria",
+    "amount": 12.5,
+    "category": "Food",
+    "date": "2026-02-19",
+    "createdAt": "2026-02-19T12:00:00.000Z",
+    "updatedAt": "2026-02-19T12:00:00.000Z"
+  },
+  {
+    "id": "txn_2",
+    "description": "Chemistry Textbook",
+    "amount": 89.99,
+    "category": "Books",
+    "date": "2026-02-18",
+    "createdAt": "2026-02-18T10:00:00.000Z",
+    "updatedAt": "2026-02-18T10:00:00.000Z"
+  },
+  {
+    "id": "txn_3",
+    "description": "Bus Pass",
+    "amount": 45.0,
+    "category": "Transport",
+    "date": "2026-02-15",
+    "createdAt": "2026-02-15T08:00:00.000Z",
+    "updatedAt": "2026-02-15T08:00:00.000Z"
+  },
+  {
+    "id": "txn_4",
+    "description": "Movie tickets",
+    "amount": 15.0,
+    "category": "Entertainment",
+    "date": "2026-02-14",
+    "createdAt": "2026-02-14T19:00:00.000Z",
+    "updatedAt": "2026-02-14T19:00:00.000Z"
+  },
+  {
+    "id": "txn_5",
+    "description": "Lab Fees",
+    "amount": 250.0,
+    "category": "Fees",
+    "date": "2026-02-01",
+    "createdAt": "2026-02-01T09:00:00.000Z",
+    "updatedAt": "2026-02-01T09:00:00.000Z"
+  },
+  {
+    "id": "txn_6",
+    "description": "Stapler and ink",
+    "amount": 22.4,
+    "category": "Books",
+    "date": "2026-02-10",
+    "createdAt": "2026-02-10T11:00:00.000Z",
+    "updatedAt": "2026-02-10T11:00:00.000Z"
+  },
+  {
+    "id": "txn_7",
+    "description": "Gym Membership",
+    "amount": 30.0,
+    "category": "Other",
+    "date": "2026-02-05",
+    "createdAt": "2026-02-05T07:00:00.000Z",
+    "updatedAt": "2026-02-05T07:00:00.000Z"
+  },
+  {
+    "id": "txn_8",
+    "description": "Allowance from home",
+    "amount": 500.0,
+    "category": "Allowance",
+    "date": "2026-02-01",
+    "type": "income",
+    "createdAt": "2026-02-01T08:00:00.000Z",
+    "updatedAt": "2026-02-01T08:00:00.000Z"
+  },
+  {
+    "id": "txn_9",
+    "description": "Part time salary",
+    "amount": 1200.0,
+    "category": "Salary",
+    "date": "2026-02-15",
+    "type": "income",
+    "createdAt": "2026-02-15T17:00:00.000Z",
+    "updatedAt": "2026-02-15T17:00:00.000Z"
+  },
+  {
+    "id": "txn_10",
+    "description": "Weekly Groceries",
+    "amount": 55.2,
+    "category": "Food",
+    "date": "2026-02-17",
+    "createdAt": "2026-02-17T14:00:00.000Z",
+    "updatedAt": "2026-02-17T14:00:00.000Z"
+  }
+]
