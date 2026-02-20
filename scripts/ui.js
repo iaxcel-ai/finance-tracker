@@ -191,6 +191,7 @@ function updateBudgetSection(transactions) {
       let forecastMsg = '';
       if (remaining <= 0) {
           forecastMsg = 'Budget exceeded!';
+          showNotification('Warning: Monthly budget limit exceeded!', 'error');
       } else if (dailyAvg > 0) {
           const daysLeft = Math.floor(remaining / dailyAvg);
           forecastMsg = `At this rate, budget runs out in ~${daysLeft} days.`;

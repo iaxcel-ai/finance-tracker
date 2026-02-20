@@ -12,7 +12,10 @@ const PATTERNS = {
   currency: /^\S(?:.*\S)?$/,
 
   // date: YYYY-MM-DD
-  date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/
+  date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
+
+  // advanced: back-reference to catch duplicate words
+  duplicateWords: /\b(\w+)\s+\1\b/i
 };
 
 // allowed categories
@@ -36,6 +39,9 @@ export function validateTransaction(data) {
   } else if (!PATTERNS.description.test(data.description)) {
     console.log('Regex PATTERNS.description test failed!');
     errors.description = 'Description must contain only letters and single spaces.';
+  } else if (PATTERNS.duplicateWords.test(data.description)) {
+    console.log('Duplicate words detected!');
+    errors.description = 'Description cannot contain duplicate consecutive words.';
   }
 
   // amount validation

@@ -157,7 +157,11 @@ function handleSaveEdit(id) {
   // update transaction
   const index = transactions.findIndex(t => t.id === id);
   if (index !== -1) {
-    transactions[index] = { ...transactions[index], ...updatedData };
+    transactions[index] = { 
+      ...transactions[index], 
+      ...updatedData, 
+      updatedAt: new Date().toISOString() 
+    };
     save(transactions);
     editingId = null;
     renderApp();
@@ -360,8 +364,10 @@ function setupEventListeners() {
       return;
     }
 
-    // add id
+    // add id and timestamps
     newTxn.id = generateID();
+    newTxn.createdAt = new Date().toISOString();
+    newTxn.updatedAt = new Date().toISOString();
 
     transactions.push(newTxn);
     save(transactions);

@@ -14,7 +14,8 @@ const EXCHANGE_RATES = {
   GBP: 0.79,
   KES: 130.0,
   INR: 83.0,
-  JPY: 150.0
+  JPY: 150.0,
+  RWF: 1300.0
 };
 
 /**

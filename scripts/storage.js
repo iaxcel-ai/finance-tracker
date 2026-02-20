@@ -11,7 +11,7 @@ const SEED_DATA = [
     description: "Lunch at cafeteria",
     amount: 12.50,
     category: "Food",
-    date: "2025-09-25",
+    date: "2026-02-19",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -20,7 +20,7 @@ const SEED_DATA = [
     description: "Chemistry Textbook",
     amount: 89.99,
     category: "Books",
-    date: "2025-09-23",
+    date: "2026-02-18",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   }
