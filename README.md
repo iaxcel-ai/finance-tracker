@@ -14,6 +14,18 @@ A modern, responsive web application designed for students to manage their budge
   - **Data Portability**: Export your data to JSON or import from a backup file.
 - **Accessibility**: Built with semantic HTML, keyboard-only flow, and skip-to-content links.
 
+## 🎨 Design Planning (M1)
+
+Initial hand-drawn planning for the Student Finance Tracker across all devices:
+
+```carousel
+![Desktop Design](file:///d:/shuleni/finance-tracker/assets/design/desktop_sketch.jpg)
+<!-- slide -->
+![Tablet Design](file:///d:/shuleni/finance-tracker/assets/design/tablet_sketch.jpg)
+<!-- slide -->
+![Mobile Design](file:///d:/shuleni/finance-tracker/assets/design/mobile_sketch.jpg)
+```
+
 ## 🛠️ Technology Stack
 
 - **HTML5**: Semantic structure (header, nav, main, section, footer).
